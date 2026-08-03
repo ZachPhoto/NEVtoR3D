@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AMApplicationBuild</key>
+	<string>472</string>
+	<key>AMApplicationVersion</key>
+	<string>2.10</string>
+	<key>AMDocumentVersion</key>
+	<string>2</string>
+	<key>actions</key>
+	<array>
+		<dict>
+			<key>action</key>
+			<dict>
+				<key>AMAccepts</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Optional</key>
+					<false/>
+					<key>Types</key>
+					<array>
+						<string>com.apple.cocoa.string</string>
+					</array>
+				</dict>
+				<key>AMActionVersion</key>
+				<string>2.0.3</string>
+				<key>AMApplication</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>AMParameterProperties</key>
+				<dict/>
+				<key>AMProvides</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Types</key>
+					<array>
+						<string>com.apple.cocoa.string</string>
+					</array>
+				</dict>
+				<key>ActionBundlePath</key>
+				<string>/System/Library/Automator/Run Shell Script.action</string>
+				<key>ActionName</key>
+				<string>Run Shell Script</string>
+				<key>ActionParameters</key>
+				<dict>
+					<key>COMMAND_STRING</key>
+					<string>count=0; skipped=0; failed=0; proxy=0
+log="$HOME/Library/Logs/NEVtoR3D.log"
+echo "--- $(date '+%Y-%m-%d %H:%M:%S') 收到 $# 个输入 ---" &gt;&gt; "$log"
+for f in "$@"; do
+  lower="${f:l}"
+  case "$lower" in
+    *.nev.mov)
+      proxy=$((proxy+1))
+      echo "代理文件(无需转换): $f" &gt;&gt; "$log"
+      ;;
+    *.nev)
+      target="${f%.*}.R3D"
+      if [ -e "$target" ]; then
+        skipped=$((skipped+1))
+        echo "跳过(同名已存在): $target" &gt;&gt; "$log"
+      elif mv "$f" "$target" 2&gt;&gt;"$log"; then
+        count=$((count+1))
+        echo "OK: $f -&gt; $target" &gt;&gt; "$log"
+      else
+        failed=$((failed+1))
+        echo "失败: $f" &gt;&gt; "$log"
+      fi
+      ;;
+    *)
+      echo "忽略(非NEV): $f" &gt;&gt; "$log"
+      ;;
+  esac
+done
+if [ "$count" -gt 0 ]; then
+  msg="已转换 $count 个文件为 .R3D"
+  [ "$skipped" -gt 0 ] &amp;&amp; msg="$msg，$skipped 个同名跳过"
+  [ "$failed" -gt 0 ] &amp;&amp; msg="$msg，$failed 个失败(见日志)"
+  [ "$proxy" -gt 0 ] &amp;&amp; msg="$msg，$proxy 个代理文件已忽略"
+elif [ "$proxy" -gt 0 ] &amp;&amp; [ "$#" -eq "$proxy" ]; then
+  msg="选中的是代理文件(.NEV.MOV)，无需转换，请处理同名 .NEV 主文件"
+else
+  msg="未找到 .NEV/.nev 素材（传入 $# 个文件）"
+fi
+osascript -e "display notification \"$msg\" with title \"NEV转R3D\" sound name \"Glass\"" 2&gt;&gt;"$log"
+echo "$msg" &gt;&gt; "$log"</string>
+					<key>CheckedForUserDefaultShell</key>
+					<true/>
+					<key>inputMethod</key>
+					<integer>1</integer>
+					<key>shell</key>
+					<string>/bin/zsh</string>
+					<key>source</key>
+					<string></string>
+				</dict>
+				<key>BundleIdentifier</key>
+				<string>com.apple.RunShellScript</string>
+				<key>CFBundleVersion</key>
+				<string>2.0.3</string>
+				<key>CanShowSelectedItemsWhenRun</key>
+				<false/>
+				<key>CanShowWhenRun</key>
+				<true/>
+				<key>Category</key>
+				<array>
+					<string>AMCategoryUtilities</string>
+				</array>
+				<key>Class Name</key>
+				<string>RunShellScriptAction</string>
+				<key>InputUUID</key>
+				<string>E8A2B4C6-1D3E-4F5A-9B7C-0D2E4F6A8B10</string>
+				<key>Keywords</key>
+				<array>
+					<string>Shell</string>
+					<string>Script</string>
+					<string>Command</string>
+					<string>Run</string>
+					<string>Terminal</string>
+					<string>Execute</string>
+				</array>
+				<key>OutputUUID</key>
+				<string>0B7E6E68-9E4E-4B67-9E1B-8C0A7F2D3C11</string>
+				<key>UUID</key>
+				<string>5D3F1A2B-7C4D-4E8F-9A0B-2E6D8F1A3C55</string>
+				<key>UnlocalizedApplications</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>arguments</key>
+				<dict>
+					<key>0</key>
+					<dict>
+						<key>default value</key>
+						<integer>1</integer>
+						<key>name</key>
+						<string>inputMethod</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>3F2A9B4C-8E1D-4F6A-9B2C-7D5E8A1F0C3B</string>
+					</dict>
+					<key>1</key>
+					<dict>
+						<key>default value</key>
+						<string>/bin/zsh</string>
+						<key>name</key>
+						<string>shell</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>6C4E8D1A-9B2F-4C7E-8A3D-0B5F9E2A1C7D</string>
+					</dict>
+					<key>2</key>
+					<dict>
+						<key>default value</key>
+						<string>count=0; skipped=0; failed=0; proxy=0
+log="$HOME/Library/Logs/NEVtoR3D.log"
+echo "--- $(date '+%Y-%m-%d %H:%M:%S') 收到 $# 个输入 ---" &gt;&gt; "$log"
+for f in "$@"; do
+  lower="${f:l}"
+  case "$lower" in
+    *.nev.mov)
+      proxy=$((proxy+1))
+      echo "代理文件(无需转换): $f" &gt;&gt; "$log"
+      ;;
+    *.nev)
+      target="${f%.*}.R3D"
+      if [ -e "$target" ]; then
+        skipped=$((skipped+1))
+        echo "跳过(同名已存在): $target" &gt;&gt; "$log"
+      elif mv "$f" "$target" 2&gt;&gt;"$log"; then
+        count=$((count+1))
+        echo "OK: $f -&gt; $target" &gt;&gt; "$log"
+      else
+        failed=$((failed+1))
+        echo "失败: $f" &gt;&gt; "$log"
+      fi
+      ;;
+    *)
+      echo "忽略(非NEV): $f" &gt;&gt; "$log"
+      ;;
+  esac
+done
+if [ "$count" -gt 0 ]; then
+  msg="已转换 $count 个文件为 .R3D"
+  [ "$skipped" -gt 0 ] &amp;&amp; msg="$msg，$skipped 个同名跳过"
+  [ "$failed" -gt 0 ] &amp;&amp; msg="$msg，$failed 个失败(见日志)"
+  [ "$proxy" -gt 0 ] &amp;&amp; msg="$msg，$proxy 个代理文件已忽略"
+elif [ "$proxy" -gt 0 ] &amp;&amp; [ "$#" -eq "$proxy" ]; then
+  msg="选中的是代理文件(.NEV.MOV)，无需转换，请处理同名 .NEV 主文件"
+else
+  msg="未找到 .NEV/.nev 素材（传入 $# 个文件）"
+fi
+osascript -e "display notification \"$msg\" with title \"NEV转R3D\" sound name \"Glass\"" 2&gt;&gt;"$log"
+echo "$msg" &gt;&gt; "$log"</string>
+						<key>name</key>
+						<string>COMMAND_STRING</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>9A1B2C3D-4E5F-6A7B-8C9D-0E1F2A3B4C5D</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>isViewVisible</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>connectors</key>
+	<dict/>
+	<key>workflowMetaData</key>
+	<dict>
+		<key>applicationBundleIDs</key>
+		<array>
+			<string>com.apple.finder</string>
+		</array>
+		<key>inputTypeIdentifier</key>
+		<string>com.apple.Automator.fileSystemObject</string>
+		<key>outputTypeIdentifier</key>
+		<string>com.apple.Automator.nothing</string>
+		<key>serviceApplicationBundleIDs</key>
+		<array/>
+		<key>serviceInputTypeIdentifier</key>
+		<string>com.apple.Automator.fileSystemObject</string>
+		<key>serviceOutputTypeIdentifier</key>
+		<string>com.apple.Automator.nothing</string>
+		<key>workflowTypeIdentifier</key>
+		<string>com.apple.Automator.servicesMenu</string>
+	</dict>
+</dict>
+</plist>
