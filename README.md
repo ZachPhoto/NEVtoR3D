@@ -21,7 +21,7 @@
 **方式一：一键脚本（推荐）**
 
 ```bash
-git clone https://github.com/<你的用户名>/NEVtoR3D.git
+git clone https://github.com/ZachPhoto/NEVtoR3D.git
 cd NEVtoR3D
 ./install.sh
 ```
