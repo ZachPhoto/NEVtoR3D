@@ -7,7 +7,7 @@
 	<key>CFBundleName</key>
 	<string>NEV转R3D</string>
 	<key>CFBundleVersion</key>
-	<string>2.2</string>
+	<string>1.0.0</string>
 	<key>NSServices</key>
 	<array>
 		<dict>
