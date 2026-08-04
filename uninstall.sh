@@ -12,17 +12,12 @@ else
 fi
 
 echo "==> 移除快捷键配置 ..."
-python3 - <<'PYEOF' 2>/dev/null || true
-import plistlib, pathlib
-p = pathlib.Path.home() / "Library/Preferences/pbs.plist"
-if p.exists():
-    d = plistlib.loads(p.read_bytes())
-    s = d.get("NSServicesStatus", {})
-    s.pop("com.apple.Automator.NEVtoR3D - NEV转R3D - runWorkflowAsService", None)
-    d["NSServicesStatus"] = s
-    p.write_bytes(plistlib.dumps(d, fmt=plistlib.FMT_XML, sort_keys=False))
-    print("快捷键配置已移除")
-PYEOF
+PLIST="$HOME/Library/Preferences/pbs.plist"
+KEY="com.apple.Automator.NEVtoR3D - NEV转R3D - runWorkflowAsService"
+if [ -f "$PLIST" ]; then
+  /usr/libexec/PlistBuddy -c "Delete :NSServicesStatus:$KEY" "$PLIST" >/dev/null 2>&1 && \
+    echo "快捷键配置已移除" || true
+fi
 
 /System/Library/CoreServices/pbs -flush 2>/dev/null || true
 killall cfprefsd 2>/dev/null || true

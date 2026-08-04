@@ -18,18 +18,24 @@
 
 ## 安装
 
-**方式一：一键脚本（推荐）**
+**方式一：双击安装包（推荐，无需任何命令行）**
+
+1. 到 [Releases](../../releases) 下载最新的 `NEVtoR3D-安装包-vX.X.zip` 并解压
+2. **双击「双击安装.command」**——自动完成安装、注册和快捷键设置
+3. 如果系统提示"无法打开，因为来自身份不明的开发者"：**右键点它 → 打开** 即可
+
+**方式二：命令行一键脚本**
 
 ```bash
 git clone https://github.com/ZachPhoto/NEVtoR3D.git
 cd NEVtoR3D
-./install.sh
+./install.sh        # 或双击 install.command，效果相同
 ```
 
-**方式二：手动安装**
+**方式三：手动安装**
 
 1. 下载本仓库（Code → Download ZIP 并解压）
-2. 双击 `NEVtoR3D.workflow`，在 Automator 中打开后按 `⌘S` 保存
+2. 双击 `NEVtoR3D.workflow`，在系统弹窗中点「安装」
 3. 或直接把 `NEVtoR3D.workflow` 拷贝到 `~/Library/Services/`
 
 **卸载**

@@ -22,20 +22,20 @@ killall Finder 2>/dev/null || true
 echo ""
 read -r -p "是否设置默认快捷键 ⌃⌥⌘R（选中文件后一键转换）？(y/N) " ans
 if [[ "${ans:-}" =~ ^[Yy]$ ]]; then
-  python3 - <<'PYEOF'
-import plistlib, pathlib
-p = pathlib.Path.home() / "Library/Preferences/pbs.plist"
-d = plistlib.loads(p.read_bytes()) if p.exists() else {}
-s = d.get("NSServicesStatus", {})
-s["com.apple.Automator.NEVtoR3D - NEV转R3D - runWorkflowAsService"] = {
-    "enabled_menu": 1,
-    "enabled_context_menu": 1,
-    "key_equivalent": "^~@r",
-}
-d["NSServicesStatus"] = s
-p.write_bytes(plistlib.dumps(d, fmt=plistlib.FMT_XML, sort_keys=False))
-print("快捷键 ⌃⌥⌘R 已写入")
-PYEOF
+  PLIST="$HOME/Library/Preferences/pbs.plist"
+  PB=/usr/libexec/PlistBuddy
+  KEY="com.apple.Automator.NEVtoR3D - NEV转R3D - runWorkflowAsService"
+  if [ ! -f "$PLIST" ]; then
+    printf '<?xml version="1.0" encoding="UTF-8"?><plist version="1.0"><dict/></plist>' > "$PLIST"
+  fi
+  "$PB" -c "Print :NSServicesStatus" "$PLIST" >/dev/null 2>&1 || \
+    "$PB" -c "Add :NSServicesStatus dict" "$PLIST"
+  "$PB" -c "Delete :NSServicesStatus:$KEY" "$PLIST" >/dev/null 2>&1 || true
+  "$PB" -c "Add :NSServicesStatus:$KEY dict" "$PLIST"
+  "$PB" -c "Add :NSServicesStatus:$KEY:enabled_menu integer 1" "$PLIST"
+  "$PB" -c "Add :NSServicesStatus:$KEY:enabled_context_menu integer 1" "$PLIST"
+  "$PB" -c "Add :NSServicesStatus:$KEY:key_equivalent string ^~@r" "$PLIST"
+  echo "快捷键 ⌃⌥⌘R 已写入"
   killall cfprefsd 2>/dev/null || true
   /System/Library/CoreServices/pbs -flush 2>/dev/null || true
 fi
