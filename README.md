@@ -1,8 +1,13 @@
 # NEVtoR3D
 
-**macOS 一键把尼康 N-RAW 素材 `.nev` 批量改名为 `.R3D` 的右键快捷服务**——让 DaVinci Resolve 等后期软件直接识别尼康 N-RAW 文件。
+**macOS 一键把尼康 N-RAW 素材 `.nev` 批量改名为 `.R3D` 的右键快捷服务**——用更省空间的 N-RAW 拍摄，又能让 DaVinci Resolve 以 RED 色彩科学处理素材。
 
-> ⚠️ **重要说明**：本工具只修改文件扩展名，**不做任何转码**。改名是社区广泛使用的技巧，利用 N-RAW 与 R3D 的容器兼容性让后期软件按 `.R3D` 识别。请先在测试素材上验证你的工作流可用，再批量处理；改名后尼康自家软件（如 NX Studio）可能不再识别这些文件。
+## 为什么要改名？
+
+1. **N-RAW 更省空间**：相比机内直接录 R3D，用 N-RAW 正常档位拍摄体积更小、更省存储
+2. **获得近似 RED 的色彩科学**：改名 `.R3D` 后，DaVinci Resolve 会按 RED 的色彩管线来解码素材——不支持机内 R3D 的尼康机型（如 Z8 / Z9），也能借此获得近似 RED 的色彩表现
+
+> ⚠️ **重要说明**：本工具只修改文件扩展名，**不做任何转码**。改名是社区广泛使用的技巧，利用后期软件按扩展名选择解码管线的机制工作。请先在测试素材上验证你的工作流可用，再批量处理；改名后尼康自家软件（如 NX Studio）可能不再识别这些文件。
 
 ## 特性
 
@@ -108,7 +113,7 @@ tail -20 ~/Library/Logs/NEVtoR3D.log
 
 ## English Summary
 
-**NEVtoR3D** is a macOS Finder Quick Action that batch-renames Nikon N-RAW `.nev` files to `.R3D` (case-insensitive) so that DaVinci Resolve and other NLEs recognize them. Right-click → Services → NEVtoR3D, or press `⌃⌥⌘R`. It never overwrites existing files, automatically skips camera `.nev.mov` proxy files, and logs every run to `~/Library/Logs/NEVtoR3D.log`.
+**NEVtoR3D** is a macOS Finder Quick Action that batch-renames Nikon N-RAW `.nev` files to `.R3D` (case-insensitive). Why rename? N-RAW at normal quality is smaller than recording R3D in-camera, and renaming to `.R3D` lets DaVinci Resolve decode the footage through RED's color pipeline — giving Nikon bodies without in-camera R3D (e.g. Z8 / Z9) a RED-like color science. Right-click → Services → NEVtoR3D, or press `⌃⌥⌘R`. It never overwrites existing files, automatically skips camera `.nev.mov` proxy files, and logs every run to `~/Library/Logs/NEVtoR3D.log`.
 
 > **Note**: This tool renames extensions only — it does NOT transcode. It is an unofficial community project, not affiliated with Nikon or RED. Test on a few files before batch use.
 
