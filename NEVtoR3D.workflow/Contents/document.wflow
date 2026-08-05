@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
+<!-- 警告：下方 Run Shell Script 的转换脚本在 ActionParameters 的 COMMAND_STRING 值 与 arguments 第2项默认值 两处重复保存，修改脚本时两处必须同步且保持完全一致 -->
 <dict>
 	<key>AMApplicationBuild</key>
 	<string>472</string>

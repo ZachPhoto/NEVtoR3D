@@ -24,7 +24,7 @@ read -r -p "是否设置默认快捷键 ⌃⌥⌘R（选中文件后一键转换
 if [[ "${ans:-}" =~ ^[Yy]$ ]]; then
   PLIST="$HOME/Library/Preferences/pbs.plist"
   PB=/usr/libexec/PlistBuddy
-  KEY="com.apple.Automator.NEVtoR3D - NEV转R3D - runWorkflowAsService"
+  KEY="com.apple.Automator.NEVtoR3D - NEV转R3D - runWorkflowAsService" # 与 uninstall.sh 中的 KEY 保持一致
   if [ ! -f "$PLIST" ]; then
     printf '<?xml version="1.0" encoding="UTF-8"?><plist version="1.0"><dict/></plist>' > "$PLIST"
   fi

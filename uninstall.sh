@@ -13,7 +13,7 @@ fi
 
 echo "==> 移除快捷键配置 ..."
 PLIST="$HOME/Library/Preferences/pbs.plist"
-KEY="com.apple.Automator.NEVtoR3D - NEV转R3D - runWorkflowAsService"
+KEY="com.apple.Automator.NEVtoR3D - NEV转R3D - runWorkflowAsService" # 与 install.sh 中的 KEY 保持一致
 if [ -f "$PLIST" ]; then
   /usr/libexec/PlistBuddy -c "Delete :NSServicesStatus:$KEY" "$PLIST" >/dev/null 2>&1 && \
     echo "快捷键配置已移除" || true
